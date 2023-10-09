@@ -11,5 +11,9 @@ app.use(bodyParser.urlencoded({ extends: false }));
 app.use(adminRoute);
 app.use(shopRoute);
 
+app.use((req, res, next) => {
+  res.status(404).send("<h1>Page not found</h1>");
+});
+
 // express 내부 문서를 읽어보면 app.listen에서 서버를 같이 불러와줌 (http import 제거가 가능)
 app.listen(3000);
