@@ -1,21 +1,24 @@
+const path = require("path");
+
 const express = require("express");
 const bodyParser = require("body-parser");
-const path = require("path");
+
 const app = express();
 
-const adminRoute = require("./route/admin");
-const shopRoute = require("./route/shop");
+app.set("view engine", "ejs");
+app.set("views", "views");
 
+const adminData = require("./routes/admin");
+const shopRoutes = require("./routes/shop");
+
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(bodyParser.urlencoded({ extends: false }));
-
-app.use("/admin", adminRoute);
-app.use(shopRoute);
+app.use("/admin", adminData.routes);
+app.use(shopRoutes);
 
 app.use((req, res, next) => {
-  res.status(404).sendFile(path.join(__dirname, "views", "not-found.html"));
+  res.status(404).render("404", { pageTitle: "Page Not Found" });
 });
 
-// express 내부 문서를 읽어보면 app.listen에서 서버를 같이 불러와줌 (http import 제거가 가능)
 app.listen(3000);
