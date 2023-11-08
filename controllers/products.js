@@ -17,13 +17,14 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  const products = Product.fetchAll(); // 모든 상품을 가져오는
-  res.render("shop", {
-    prods: products,
-    pageTitle: "Shop",
-    path: "/",
-    hasProducts: products.length > 0,
-    activeShop: true,
-    productCSS: true,
-  });
+  Product.fetchAll((products) => {
+    res.render("shop", {
+      prods: products,
+      pageTitle: "Shop",
+      path: "/",
+      hasProducts: products.length > 0,
+      activeShop: true,
+      productCSS: true,
+    });
+  }       );
 };
