@@ -4,7 +4,7 @@ const getDb = require("../util/database").getDb;
 class Product {
   constructor(title, price, description, imageUrl) {
     this.title = title;
-    this.price = price;
+    this.price = parseInt(price);
     this.description = description;
     this.imageUrl = imageUrl;
   }
@@ -44,7 +44,10 @@ class Product {
         console.log(product);
         return product;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log("findById Error:", err); // 에러 출력
+        throw err; // 에러 전파
+      });
   }
 }
 
